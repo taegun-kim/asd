@@ -43,17 +43,46 @@ document.addEventListener("DOMContentLoaded", () => {
     randomizeHotels();
 });
 
-const loginBtn = document.getElementById('loginBtn');
-    const loginForm = document.getElementById('loginForm');
-    const signupForm = document.getElementById('signupForm');
+cloginBtn.addEventListener('click', () => {
+    const loginModel = document.getElementById('loginModel');
+    const signupModel = document.getElementById('signupModel');
+    const closeButtons = document.querySelectorAll('.close');
+    const signupLink = document.getElementById('signupLink');
 
-    // 로그인, 회원가입 처리
-    loginBtn.addEventListener('click', async () => {
+    loginBtn.onclick = () => {
+        loginModel.style.display = "block";
+    };
+
+    signupLink.onclick = (e) => {
+        e.preventDefault();
+        loginModel.style.display = "none";
+        signupModel.style.display = "block";
+    };
+
+    closeButtons.forEach(button => {
+        button.onclick = () => {
+            loginModel.style.display = "none";
+            signupModel.style.display = "none";
+        };
+    });
+
+    window.onclick = (event) => {
+        if (event.target === loginModel) {
+            loginModel.style.display = "none";
+        } else if (event.target === signupModel) {
+            signupModel.style.display = "none";
+        }
+    };
+
+    // 로그인 폼 처리
+    loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
 
-        const url = 'https://port-0-node-express-lxxo8336e8ae8d43.sel5.cloudtype.app/login'; // 수정 필요: 백엔드 로그인 엔드포인트 URL
-        const data = { username, password };
+        const url = 'https://taegun-kim.github.io/HotelReservation/:3000/login';
+        const data = { username: username, password: password };
 
         try {
             const response = await fetch(url, {
