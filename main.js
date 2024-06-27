@@ -221,7 +221,7 @@ async function submitReservation(event) {
     const reserveGuests = document.getElementById('reserveGuests').value;
     const reserveName = document.getElementById('reserveName').value;
 
-    const url = 'https://port-0-node-express-lxxo8336e8ae8d43.sel5.cloudtype.app//reserve';
+    const url = 'https://port-0-node-express-lxxo8336e8ae8d43.sel5.cloudtype.app/reserve';
     const data = {
         hotelId: hotelId,
         reserveStartDate: reserveStartDate,
