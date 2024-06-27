@@ -44,50 +44,16 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 const loginBtn = document.getElementById('loginBtn');
-const loginForm = document.getElementById('loginForm');
-const signupForm = document.getElementById('signupForm');
+    const loginForm = document.getElementById('loginForm');
+    const signupForm = document.getElementById('signupForm');
 
-// 2. 로그인, 회원가입
-loginBtn.addEventListener('click', () => {
-    const loginModel = document.getElementById('loginModel');
-    const signupModel = document.getElementById('signupModel');
-    const closeButtons = document.querySelectorAll('.close');
-    const signupLink = document.getElementById('signupLink');
-
-    loginBtn.onclick = () => {
-        loginModel.style.display = "block";
-    };
-
-    signupLink.onclick = (e) => {
-        e.preventDefault();
-        loginModel.style.display = "none";
-        signupModel.style.display = "block";
-    };
-
-    closeButtons.forEach(button => {
-        button.onclick = () => {
-            loginModel.style.display = "none";
-            signupModel.style.display = "none";
-        };
-    });
-
-    window.onclick = (event) => {
-        if (event.target === loginModel) {
-            loginModel.style.display = "none";
-        } else if (event.target === signupModel) {
-            signupModel.style.display = "none";
-        }
-    };
-
-    // 로그인 폼 처리
-    loginForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-
+    // 로그인, 회원가입 처리
+    loginBtn.addEventListener('click', async () => {
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
 
-        const url = 'https://taegun-kim.github.io/HotelReservation/:3000/login';
-        const data = { username: username, password: password };
+        const url = 'https://667db19328b1e44d54ad79ed--dynamic-genie-5427fc.netlify.app/login'; // 수정 필요: 백엔드 로그인 엔드포인트 URL
+        const data = { username, password };
 
         try {
             const response = await fetch(url, {
@@ -110,14 +76,13 @@ loginBtn.addEventListener('click', () => {
         }
     });
 
-    // 회원가입 폼 처리
     signupForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
         const newUsername = document.getElementById('newUsername').value;
         const newPassword = document.getElementById('newPassword').value;
 
-        const url = 'https://taegun-kim.github.io/HotelReservation/:3000/signup';
+        const url = 'https://667db19328b1e44d54ad79ed--dynamic-genie-5427fc.netlify.app/signup'; // 수정 필요: 백엔드 회원가입 엔드포인트 URL
         const data = { username: newUsername, password: newPassword };
 
         try {
@@ -137,99 +102,80 @@ loginBtn.addEventListener('click', () => {
             console.error('회원가입 오류:', error);
         }
     });
-});
 
-function updateLoginStatus(user) {
-    const userNav = document.getElementById('userNav');
-    userNav.innerHTML = `<li><a href="#" id="userBtn">${user.username}님</a></li>`;
-    const userBtn = document.getElementById('userBtn');
-    userBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        fetchUserReservations(user.username); // Fetch reservations when user clicks on username
-    });
+    function updateLoginStatus(user) {
+        const userNav = document.getElementById('userNav');
+        userNav.innerHTML = `<li><a href="#" id="userBtn">${user.username}님</a></li>`;
+        const userBtn = document.getElementById('userBtn');
+        userBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            fetchUserReservations(user.username);
+        });
 
-    // Show reservations section only when user is logged in
-    const reservationsSection = document.getElementById('userReservations');
-    reservationsSection.style.display = 'block';
-}
-
-
-async function fetchUserReservations(username) {
-    const url = `https://taegun-kim.github.io/HotelReservation/:3000/user/${username}/reservations`;
-
-    try {
-        const response = await fetch(url);
-
-        if (!response.ok) {
-            throw new Error('예약 정보를 불러오는데 실패하였습니다.');
-        }
-
-        const reservations = await response.json();
-        const reservationList = document.getElementById('reservationList');
-        reservationList.innerHTML = '';
-
-        if (reservations.length === 0) {
-            reservationList.innerHTML = '<li>예약된 내역이 없습니다.</li>';
-        } 
-        else {
-            reservations.forEach(reservation => {
-                const li = document.createElement('li');
-                li.textContent = `예약 ID: ${reservation.id}, 예약 날짜: ${reservation.reserveStartDate} - ${reservation.reserveEndDate} , 예약자: ${reservation.reserveName} , 예약 인원: ${reservation.reserveGuests}`;
-
-                // 만든 리스트 아이템을 reservationList에 추가하기
-                reservationList.appendChild(li);
-            });
-        }
-    } catch (error) {
-        console.error('예약 정보 불러오기 오류:', error);
+        // Show reservations section only when user is logged in
+        const reservationsSection = document.getElementById('userReservations');
+        reservationsSection.style.display = 'block';
     }
-}
+
+    async function fetchUserReservations(username) {
+        const url = `https://667db19328b1e44d54ad79ed--dynamic-genie-5427fc.netlify.app/user/${username}/reservations`; // 수정 필요: 백엔드 예약 조회 엔드포인트 URL
+
+        try {
+            const response = await fetch(url);
+
+            if (!response.ok) {
+                throw new Error('예약 정보를 불러오는데 실패하였습니다.');
+            }
+
+            const reservations = await response.json();
+            const reservationList = document.getElementById('reservationList');
+            reservationList.innerHTML = '';
+
+            if (reservations.length === 0) {
+                reservationList.innerHTML = '<li>예약된 내역이 없습니다.</li>';
+            } else {
+                reservations.forEach(reservation => {
+                    const li = document.createElement('li');
+                    li.textContent = `예약 ID: ${reservation.id}, 예약 날짜: ${reservation.reserveStartDate} - ${reservation.reserveEndDate} , 예약자: ${reservation.reserveName} , 예약 인원: ${reservation.reserveGuests}`;
+                    reservationList.appendChild(li);
+                });
+            }
+        } catch (error) {
+            console.error('예약 정보 불러오기 오류:', error);
+        }
+    }
 
 // 예약 모달 열기
-function openReserveModel(hotelIndex) {
+function openReserveModal(hotelIndex) {
     if (!loggedInUser) {
         alert('예약하려면 먼저 로그인해야 합니다.');
         return;
     }
 
-    const reserveModel = document.getElementById('reserveModel');
-    reserveModel.style.display = "block";
+    const reserveModal = document.getElementById('reserveModal');
+    reserveModal.style.display = 'block';
 
     const hotelIdInput = document.getElementById('hotelId');
     hotelIdInput.value = selectedHotelIndexes[hotelIndex - 1];
-
-    const closeButtons = document.querySelectorAll('.close');
-    closeButtons.forEach(button => {
-        button.onclick = () => {
-            reserveModel.style.display = "none";
-        };
-    });
-
-    window.onclick = (event) => {
-        if (event.target === reserveModel) {
-            reserveModel.style.display = "none";
-        }
-    };
 }
 
-async function submitReservation(event) {
-    event.preventDefault();
-
+async function submitReservation() {
     const hotelId = document.getElementById('hotelId').value;
+    const reserveName = document.getElementById('reserveName').value;
+    const reserveGuests = document.getElementById('reserveGuests').value;
     const reserveStartDate = document.getElementById('reserveStartDate').value;
     const reserveEndDate = document.getElementById('reserveEndDate').value;
-    const reserveGuests = document.getElementById('reserveGuests').value;
-    const reserveName = document.getElementById('reserveName').value;
 
-    const url = 'https://taegun-kim.github.io/HotelReservation/:3000/reserve';
     const data = {
-        hotelId: hotelId,
-        reserveStartDate: reserveStartDate,
-        reserveEndDate: reserveEndDate,
-        reserveGuests: reserveGuests,
-        reserveName: reserveName,
-        userName: loggedInUser.username
+        hotelId,
+        reserveName,
+        reserveGuests,
+        reserveStartDate,
+        reserveEndDate,
+        username: loggedInUser.username
     };
+
+    const url = 'https://667db19328b1e44d54ad79ed--dynamic-genie-5427fc.netlify.app/reserve'; // 수정 필요: 백엔드 예약 생성 엔드포인트 URL
 
     try {
         const response = await fetch(url, {
@@ -239,14 +185,19 @@ async function submitReservation(event) {
         });
 
         if (!response.ok) {
-            throw new Error('예약에 실패하였습니다.');
+            throw new Error('예약을 완료하지 못했습니다.');
         }
 
         const result = await response.json();
-        alert('예약이 성공적으로 완료되었습니다!');
-        document.getElementById('reserveModel').style.display = "none";
-        fetchUserReservations(loggedInUser.id);
+        alert('예약이 완료되었습니다!');
+        closeReserveModal();
     } catch (error) {
         console.error('예약 오류:', error);
     }
+}
+
+// 예약 모달 닫기
+function closeReserveModal() {
+    const reserveModal = document.getElementById('reserveModal');
+    reserveModal.style.display = 'none';
 }
