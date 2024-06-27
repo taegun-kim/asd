@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
     randomizeHotels();
 });
 
-cloginBtn.addEventListener('click', () => {
+loginBtn.addEventListener('click', () => {
     const loginModel = document.getElementById('loginModel');
     const signupModel = document.getElementById('signupModel');
     const closeButtons = document.querySelectorAll('.close');
