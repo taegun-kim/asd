@@ -52,7 +52,7 @@ const loginBtn = document.getElementById('loginBtn');
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
 
-        const url = 'https://667db19328b1e44d54ad79ed--dynamic-genie-5427fc.netlify.app/login'; // 수정 필요: 백엔드 로그인 엔드포인트 URL
+        const url = 'https://port-0-node-express-lxxo8336e8ae8d43.sel5.cloudtype.app/login'; // 수정 필요: 백엔드 로그인 엔드포인트 URL
         const data = { username, password };
 
         try {
@@ -82,7 +82,7 @@ const loginBtn = document.getElementById('loginBtn');
         const newUsername = document.getElementById('newUsername').value;
         const newPassword = document.getElementById('newPassword').value;
 
-        const url = 'https://667db19328b1e44d54ad79ed--dynamic-genie-5427fc.netlify.app/signup'; // 수정 필요: 백엔드 회원가입 엔드포인트 URL
+        const url = 'https://port-0-node-express-lxxo8336e8ae8d43.sel5.cloudtype.app/signup'; // 수정 필요: 백엔드 회원가입 엔드포인트 URL
         const data = { username: newUsername, password: newPassword };
 
         try {
@@ -118,7 +118,7 @@ const loginBtn = document.getElementById('loginBtn');
     }
 
     async function fetchUserReservations(username) {
-        const url = `https://667db19328b1e44d54ad79ed--dynamic-genie-5427fc.netlify.app/user/${username}/reservations`; // 수정 필요: 백엔드 예약 조회 엔드포인트 URL
+        const url = `https://port-0-node-express-lxxo8336e8ae8d43.sel5.cloudtype.app/user/${username}/reservations`; // 수정 필요: 백엔드 예약 조회 엔드포인트 URL
 
         try {
             const response = await fetch(url);
@@ -175,7 +175,7 @@ async function submitReservation() {
         username: loggedInUser.username
     };
 
-    const url = 'https://667db19328b1e44d54ad79ed--dynamic-genie-5427fc.netlify.app/reserve'; // 수정 필요: 백엔드 예약 생성 엔드포인트 URL
+    const url = 'https://port-0-node-express-lxxo8336e8ae8d43.sel5.cloudtype.app/reserve'; // 수정 필요: 백엔드 예약 생성 엔드포인트 URL
 
     try {
         const response = await fetch(url, {
